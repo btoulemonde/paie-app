@@ -23,16 +23,19 @@ public class ProfilRemuneration {
 
 
 	@ManyToMany
-	@JoinTable(name="profil_remuneration_cotisation", 
-	joinColumns = @JoinColumn(name="id_profil_remuneration", referencedColumnName="id"),
-	inverseJoinColumns = @JoinColumn(name="id_cotisation", referencedColumnName="id"))
+	@JoinTable(name="profil_remuneration_cotisations", 
+	joinColumns = @JoinColumn(name="profil_remuneration_id", referencedColumnName="id"),
+	inverseJoinColumns = @JoinColumn(name="cotisations_id", referencedColumnName="id"))
 	private List<Cotisation> cotisations;
 
 	@ManyToMany
-	@JoinTable(name="profil_remuneration_avantage", 
-	joinColumns = @JoinColumn(name="id_profil_remuneration", referencedColumnName="id"),
-	inverseJoinColumns = @JoinColumn(name="id_avantage", referencedColumnName="id"))
+	@JoinTable(name="profil_remuneration_avantages", 
+	joinColumns = @JoinColumn(name="profil_remuneration_id", referencedColumnName="id"),
+	inverseJoinColumns = @JoinColumn(name="avantages_id", referencedColumnName="id"))
 	private List<Avantage> avantages;
+
+	
+	
 
 	public Integer getId() {
 		return id;

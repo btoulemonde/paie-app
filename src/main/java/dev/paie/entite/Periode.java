@@ -19,6 +19,9 @@ public class Periode {
 	private LocalDate dateDebut;
 	private LocalDate dateFin;
 	
+	
+
+	
 	public LocalDate getDateDebut() {
 		return dateDebut;
 	}
