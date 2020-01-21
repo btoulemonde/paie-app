@@ -11,7 +11,7 @@ import dev.paie.repository.PaieBulletinRepository;
 import dev.paie.repository.PaiePeriodeRpository;
 import dev.paie.repository.PaieRemunerationRepository;
 
-@Controller
+//@Controller
 public class InsererBulletin implements Runnable {
 	
 	private PaieBulletinRepository paieBulletinRepository;
