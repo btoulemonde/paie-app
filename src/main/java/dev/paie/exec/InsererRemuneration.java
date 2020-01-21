@@ -57,11 +57,12 @@ public class InsererRemuneration implements Runnable {
 			remuneration.setGrade(grade);
 			remuneration.setMatricule("M01");
 			remuneration.setProfilRemuneration(profilRemuneration);
+			this.paieRemunerationRepository.save(remuneration);
+			LOG.info("Remuneration insérée en bdd");
+
 		} catch (EntityNotFoundException e) {
 			LOG.error("problème d'accès à une donnée en base : " + e.getMessage());
 		}
-		this.paieRemunerationRepository.save(remuneration);
-		LOG.info("Remuneration insérée en bdd");
 
 	}
 

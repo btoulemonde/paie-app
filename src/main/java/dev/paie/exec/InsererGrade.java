@@ -2,12 +2,10 @@ package dev.paie.exec;
 
 import java.math.BigDecimal;
 
-import org.springframework.stereotype.Controller;
-
 import dev.paie.entite.Grade;
 import dev.paie.repository.PaieGradeRepository;
 
-@Controller
+//@Controller
 public class InsererGrade implements Runnable {
 
 	private PaieGradeRepository paieGradeRepository;

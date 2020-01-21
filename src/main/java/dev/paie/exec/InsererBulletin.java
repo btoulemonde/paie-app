@@ -6,6 +6,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
 import dev.paie.entite.BulletinSalaire;
 import dev.paie.entite.Periode;
@@ -14,7 +15,7 @@ import dev.paie.repository.PaieBulletinRepository;
 import dev.paie.repository.PaiePeriodeRpository;
 import dev.paie.repository.PaieRemunerationRepository;
 
-//@Controller
+@Controller
 public class InsererBulletin implements Runnable {
 	private static final Logger LOG = LoggerFactory.getLogger(InsererBulletin.class);
 
@@ -40,18 +41,19 @@ public class InsererBulletin implements Runnable {
 	public void run() {
 		BulletinSalaire bulletin = new BulletinSalaire();
 		try {
-			Periode periode = this.paiePeriodeRepository.findById(1)
+			Periode periode = this.paiePeriodeRepository.findById(2)
 					.orElseThrow(() -> new EntityNotFoundException("periode non trouvée"));
 			RemunerationEmploye remunerationEmploye = this.paieRemunerationRepository.findById(1)
 					.orElseThrow(() -> new EntityNotFoundException("remunération non trouvée"));
 			bulletin.setPeriode(periode);
-			bulletin.setPrimeExceptionnelle(new BigDecimal(1000));
+			bulletin.setPrimeExceptionnelle(new BigDecimal("1000"));
 			bulletin.setRemunerationEmploye(remunerationEmploye);
+			this.paieBulletinRepository.save(bulletin);
+
 		} catch (EntityNotFoundException e) {
 			LOG.error("problème d'accès à une donnée en base : " + e.getMessage());
 		}
-		this.paieBulletinRepository.save(bulletin);
-		LOG.info("bulletin inséré en bdd");
+
 	}
 
 }
