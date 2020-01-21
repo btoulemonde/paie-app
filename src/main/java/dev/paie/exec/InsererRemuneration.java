@@ -1,5 +1,10 @@
 package dev.paie.exec;
 
+import javax.persistence.EntityNotFoundException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import dev.paie.entite.Entreprise;
 import dev.paie.entite.Grade;
 import dev.paie.entite.ProfilRemuneration;
@@ -12,6 +17,7 @@ import dev.paie.repository.PaieRemunerationRepository;
 //@Controller
 public class InsererRemuneration implements Runnable {
 
+	private static final Logger LOG = LoggerFactory.getLogger(InsererRemuneration.class);
 	private PaieRemunerationRepository paieRemunerationRepository;
 
 	/**
@@ -37,19 +43,25 @@ public class InsererRemuneration implements Runnable {
 	@Override
 	public void run() {
 
-		ProfilRemuneration profilRemuneration = this.paieProfilRepository.findById(1)
-				.orElseThrow(() -> new RuntimeException("profil non trouvé"));
-
-		Grade grade = this.paieGradeRepository.findById(1).orElseThrow(() -> new RuntimeException("grade non trouvé"));
-
-		Entreprise entreprise = this.paieEntrepriseRepository.findById(1)
-				.orElseThrow(() -> new RuntimeException("entreprise non trouvée"));
 		RemunerationEmploye remuneration = new RemunerationEmploye();
-		remuneration.setEntreprise(entreprise);
-		remuneration.setGrade(grade);
-		remuneration.setMatricule("M01");
-		remuneration.setProfilRemuneration(profilRemuneration);
+		try {
+			ProfilRemuneration profilRemuneration = this.paieProfilRepository.findById(1)
+					.orElseThrow(() -> new EntityNotFoundException("profil non trouvé"));
+
+			Grade grade = this.paieGradeRepository.findById(1)
+					.orElseThrow(() -> new EntityNotFoundException("grade non trouvé"));
+
+			Entreprise entreprise = this.paieEntrepriseRepository.findById(1)
+					.orElseThrow(() -> new EntityNotFoundException("entreprise non trouvée"));
+			remuneration.setEntreprise(entreprise);
+			remuneration.setGrade(grade);
+			remuneration.setMatricule("M01");
+			remuneration.setProfilRemuneration(profilRemuneration);
+		} catch (EntityNotFoundException e) {
+			LOG.error("problème d'accès à une donnée en base : " + e.getMessage());
+		}
 		this.paieRemunerationRepository.save(remuneration);
+		LOG.info("Remuneration insérée en bdd");
 
 	}
 
